@@ -7,13 +7,10 @@ import model.entities.Seller;
 
 public interface SellerDao {
 	void insert(Seller obj);
-
 	void update(Seller obj);
-
 	void deletById(Integer id);
-
 	Seller findyId(Integer id);
-
 	List<Seller> findAll();
+	List<Seller>fundByDepartment(Department department);
 
 }
