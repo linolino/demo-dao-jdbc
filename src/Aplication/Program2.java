@@ -1,5 +1,6 @@
 package Aplication;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -22,15 +23,19 @@ public class Program2 {
 		Department dep = departmetDao.findyId(1);
 		System.out.println(dep);
 		///////////////////////////////////////////////////////////////
-		System.out.println("\n=== TEST 2: department findById ===");
+		System.out.println("\n=== TEST 2: department findAll ===");//RETORNA TODOS DEPARTAMENT
 		
 		List<Department> list = departmetDao.findAll();
 		for (Department obj : list) {
-			System.out.println(obj);
-			
+			System.out.println(obj);			
 		}
-		
-		
+		/////////////////////////////////////////////////////////////////
+		  //  INSERT DEPARTMENT 
+		System.out.println("\n=== TEST 4: department insert ===");	
+		Department newdep = new Department(null,"Tools");
+		departmetDao.insert(newdep);
+		System.out.println("INSERTED! NEW ID= "+ newdep.getId());
+
 		
 		sc.close();
 

@@ -21,23 +21,21 @@ public class Program {
 		System.out.println("=== TEST 1: seller findById ===");
 		Seller seller = sellerDao.findyId(3);
 		System.out.println(seller);
-
+        //RETORNA TODOS SELLER POR ID DO DEPARTMENT
 		System.out.println("\n=== TEST 2: seller findById ===");
 		Department department = new Department(2, null);
 		List<Seller> list = sellerDao.findByDepartment(department);
 		for (Seller obj : list) {
-			System.out.println(obj);
-			
+			System.out.println(obj);			
 		}
-			
-			System.out.println("\n=== TEST 3: seller findById ===");
+		//RETORNA TODOS SELLER 
+			System.out.println("\n=== TEST 3: seller findAll ===");
 		
 			 list = sellerDao.findAll();
 			for (Seller obj : list) {
 				System.out.println(obj);
-		}
-			
-
+		}			
+           //  INSERT SELLER 
 			System.out.println("\n=== TEST 4: seller insert ===");	
 			Seller newseller = new Seller(null,"Greg","greg@gmail.com",new Date(),4000.00,department);
 			sellerDao.insert(newseller);
