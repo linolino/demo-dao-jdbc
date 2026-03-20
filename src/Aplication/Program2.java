@@ -1,14 +1,14 @@
 package Aplication;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
+import db.DbException;
 import model.dao.DaoFactory;
 import model.dao.DepartmentDao;
+import model.dao.impl.DepartmentDaoJDBC;
 import model.entities.Department;
-import model.entities.Seller;
 
 public class Program2 {
 
@@ -33,10 +33,20 @@ public class Program2 {
 		  //  INSERT DEPARTMENT 
 		System.out.println("\n=== TEST 4: department insert ===");	
 		Department newdep = new Department(null,"Tools");
-		departmetDao.insert(newdep);
+		//departmetDao.insert(newdep);
+		if (newdep.getId()==null) {
+			System.out.println("NÃO INDERIDO, VENDEDOR ESTA: " + newdep.getId());			
+		}else {
 		System.out.println("INSERTED! NEW ID= "+ newdep.getId());
-
-		
+		}
+		/////////////////////////////////////////////////////////////////////
+		/// UPDATE DEPARTMENT
+		System.out.println("\n=== TEST 5: department UPDATE ===");	
+		dep = departmetDao.findyId(1);
+		dep.setName("Computers");
+		departmetDao.update(dep);
+		System.out.println("UPDATE! COMPLETED "+ dep);
+	
 		sc.close();
 
 	}
