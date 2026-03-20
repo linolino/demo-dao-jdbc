@@ -1,13 +1,13 @@
 package model.entities;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.Date;
 import java.util.Objects;
 
 public class Seller implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private Date brithDate;
@@ -19,8 +19,10 @@ public class Seller implements Serializable{
 
 	}
 
-	public Seller(int id, String name, String email, Date brithDate, Double baseSalary, Department department) {
-		
+
+
+	public Seller(Integer id, String name, String email, Date brithDate, Double baseSalary, Department department) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -28,7 +30,6 @@ public class Seller implements Serializable{
 		this.baseSalary = baseSalary;
 		this.department = department;
 	}
-
 	public int getId() {
 		return id;
 	}

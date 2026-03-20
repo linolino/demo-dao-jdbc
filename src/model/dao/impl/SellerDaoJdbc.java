@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,43 @@ public class SellerDaoJdbc implements SellerDao {
 
 	@Override
 	public void insert(Seller obj) {
-		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		PreparedStatement st = null;
+		try {
+			conn = DB.getConnection();
+
+			// EXAMPLE 1:
+			st = conn.prepareStatement("INSERT INTO seller \r\n"
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)  \r\n" + "VALUES  \r\n" + "(?, ?, ?, ?, ?) ",
+					Statement.RETURN_GENERATED_KEYS);// RETORNA O ID DO SELLER INSERIDO
+
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBrithDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartment().getId());// NEVEGAR NA TABELA DEPARTMENT E PEGAR ID DO DEPARTMENT
+
+			int rowsAffected = st.executeUpdate(); // A VARIAVEL RECEBE O NUMERO DE LINHAS AFETADAS.
+
+			if (rowsAffected > 0) {// SE CASO MAIOR QUE 0 FOI INSERIDO
+				ResultSet rs = st.getGeneratedKeys();// RS ST PEGA O NUMERO DO SELLER INSERIDO
+				if (rs.next()) {
+					int id = rs.getInt(1);// ID RECEBE A POSIÇÃO 1
+					obj.setId(id);// ATRIBUI O ID AO SELLER ID
+				}
+
+				DB.closeResultSet(rs);
+			} else {
+				throw new DbException("UNEXPECTED ERROR! NO ROWS AFFECTED!");
+
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+
+		finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
