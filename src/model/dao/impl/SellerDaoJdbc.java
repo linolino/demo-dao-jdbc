@@ -88,8 +88,40 @@ public class SellerDaoJdbc implements SellerDao {
 
 	@Override
 	public List<Seller> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;// resultado do consulta
+		try {
+			st = conn.prepareStatement(
+					"SELECT seller.*,department.Name as DepName  \r\n" + "FROM seller INNER JOIN department  \r\n"
+							+ "ON seller.DepartmentId = department.Id \r\n" + "ORDER BY Name");
+
+			// no caso aqui nao tem o id porque lista todos
+			rs = st.executeQuery();
+			List<Seller> list = new ArrayList<>();// criase uma lista de Seller para que o while abastece com os
+													// resultados
+			// CRIASE UMA LIST MAP PARA RECEBER O INTEIROS DO DEPARTMENT SE CASO EXISTIR UM
+			// ID O MAP NAO ADICIONA RETORNANDO NULL
+			Map<Integer, Department> map = new HashMap<>();
+			// ENQUANTO O RESULT SET NAO FOR NULO
+			while (rs.next()) {
+				// ADICIONA OS IDS DE DEPARTAMENT E VERIRFICA SE EXISTIR NA LISTA
+				Department dep = map.get(rs.getInt("DepartmentId"));
+				if (dep == null) {
+					dep = instantiateDepartment(rs);// CHAMA O METODO QUE INSTANCIA O RESULTSET
+					map.put(rs.getInt("DepartmentId"), dep);
+				}
+
+				Seller obj = instantiateSeller(rs, dep);
+				list.add(obj);
+			}
+			return list;
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
@@ -113,7 +145,7 @@ public class SellerDaoJdbc implements SellerDao {
 				// ADICIONA OS IDS DE DEPARTAMENT E VERIRFICA SE EXISTIR NA LISTA
 				Department dep = map.get(rs.getInt("DepartmentId"));
 				if (dep == null) {
-					dep = instantiateDepartment(rs);//CHAMA O METODO QUE INSTANCIA O RESULTSET
+					dep = instantiateDepartment(rs);// CHAMA O METODO QUE INSTANCIA O RESULTSET
 					map.put(rs.getInt("DepartmentId"), dep);
 				}
 
