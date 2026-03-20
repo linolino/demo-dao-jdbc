@@ -73,9 +73,10 @@ public class SellerDaoJdbc implements SellerDao {
 
 		PreparedStatement st = null;
 		try {
-			conn = DB.getConnection();//CHAMA A CONECÇÃO
+			conn = DB.getConnection();// CHAMA A CONECÇÃO
 
-                // COMANDO PARA ATUALIZAR O UPDATE LEMBRANDO QUE ESTE METODO RECEBE UM OBJ DE SELLER
+			// COMANDO PARA ATUALIZAR O UPDATE LEMBRANDO QUE ESTE METODO RECEBE UM OBJ DE
+			// SELLER
 			st = conn.prepareStatement("UPDATE seller  \r\n"
 					+ "		SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ?  \r\n"
 					+ "		WHERE Id = ? ");// RETORNA O ID DO SELLER INSERIDO
@@ -85,11 +86,11 @@ public class SellerDaoJdbc implements SellerDao {
 			st.setDate(3, new java.sql.Date(obj.getBrithDate().getTime()));
 			st.setDouble(4, obj.getBaseSalary());
 			st.setInt(5, obj.getDepartment().getId());// NEVEGAR NA TABELA DEPARTMENT E PEGAR ID DO DEPARTMENT
-			st.setInt(6, obj.getId()); //MUDA O VENDEDOR DE DEPARTAMENTO
+			st.setInt(6, obj.getId()); // MUDA O VENDEDOR DE DEPARTAMENTO
 
-			 st.executeUpdate(); // ATUALIZA 
+			st.executeUpdate(); // ATUALIZA
 
-		} catch (SQLException e) {// SE CASO HOUVER ALGUN ERRO MOSTRA 
+		} catch (SQLException e) {// SE CASO HOUVER ALGUN ERRO MOSTRA
 			throw new DbException(e.getMessage());
 		}
 
@@ -101,7 +102,28 @@ public class SellerDaoJdbc implements SellerDao {
 
 	@Override
 	public void deletById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+
+		try {
+			conn = DB.getConnection();// CHAMA A CONECÇÃO
+
+			// COMANDO PARA DELETAR
+			st = conn.prepareStatement("DELETE FROM seller  \r\n" + "WHERE Id = ? ");// RETORNA O ID DO SELLER INSERIDO
+
+			st.setInt(1, id);
+
+			int rows = st.executeUpdate(); // VARIAVEL RECEBE A LINHA AFETADA PARA DELETAR
+			if (rows == 0) {
+				throw new DbException("nao deletado por id nao existe");
+			}
+
+		} catch (SQLException e) {// SE CASO HOUVER ALGUN ERRO MOSTRA
+			throw new DbException(e.getMessage());
+		}
+
+		finally {
+			DB.closeStatement(st);// FECHA O STATEMENT
+		}
 
 	}
 
