@@ -12,8 +12,8 @@ import model.dao.DepartmentDao;
 import model.entities.Department;
 import model.entities.Seller;
 
-public class DepartmentDaoJDBC implements DepartmentDao{
-	
+public class DepartmentDaoJDBC implements DepartmentDao {
+
 	private Connection conn;
 
 	public DepartmentDaoJDBC(Connection conn) {
@@ -24,43 +24,39 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 	@Override
 	public void insert(Department obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Department obj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deletById(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Department findyId(Integer id) {
-		
-		
+
 		PreparedStatement st = null;
 		ResultSet rs = null;// resultado do consulta
 		try {
-			st = conn.prepareStatement(
-					"select id, name from department where id= ? ");			
+			st = conn.prepareStatement("select id, name from department where id= ? ");
 
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				
+
 				Department obj = new Department();
 				obj.setId(rs.getInt("Id"));
 				obj.setName(rs.getString("Name"));
 				return obj;
-							
 			}
 			return null;
-
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		} finally {
@@ -74,6 +70,5 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
 }

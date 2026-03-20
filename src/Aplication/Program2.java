@@ -17,8 +17,8 @@ public class Program2 {
 		
 		
 		System.out.println("=== TEST 1: department findById ===");
-		Department department = departmetDao.findyId(1);
-		System.out.println(department);
+		Department dep = departmetDao.findyId(1);
+		System.out.println(dep);
 		
 		
 		
