@@ -210,7 +210,7 @@ public class SellerDaoJdbc implements SellerDao {
 	}
 
 	@Override
-	public List<Seller> fundByDepartment(Department department) {
+	public List<Seller> findByDepartment(Department department) {
 		PreparedStatement st = null;
 		ResultSet rs = null;// resultado do consulta
 		try {

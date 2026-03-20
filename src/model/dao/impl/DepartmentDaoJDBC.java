@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
 import model.dao.DepartmentDao;
 import model.entities.Department;
-import model.entities.Seller;
 
 public class DepartmentDaoJDBC implements DepartmentDao {
 
@@ -66,9 +66,28 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 
 	@Override
-	public List<Department> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Department> findAll() {//RETORNA ULMA LISTA DEPARTMENT
+		PreparedStatement st = null;
+		ResultSet rs = null;// resultado do consulta
+		// INSTANCIA UMA LISTA PARA ARMAZENAR O RESULTSET COM OS DEPARTMENT
+		List<Department> list = new ArrayList<>();
+		try {
+			st = conn.prepareStatement("select * from department order by Name");//SELECIONA E ORDENA POR NOME
 
+			rs = st.executeQuery();
+			 while (rs.next()) {//ENQUANTO HOUVER DEPARTAMENTO
+		            Department obj = new Department();//INTANCIA O DEPARTAMASNTO COM OS CAMPOS 
+		            obj.setId(rs.getInt("Id"));//CAMPO ID NO OBJETO IDD
+		            obj.setName(rs.getString("Name"));//CAMPO NOME NO OBJ  NOME
+		            list.add(obj); // ADICIONA A LISTA 
+		        }
+		        return list; // 4. RETORNA A LISTA COMPLETA
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+
+	}
 }

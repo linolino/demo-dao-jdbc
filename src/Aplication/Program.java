@@ -24,7 +24,7 @@ public class Program {
 
 		System.out.println("\n=== TEST 2: seller findById ===");
 		Department department = new Department(2, null);
-		List<Seller> list = sellerDao.fundByDepartment(department);
+		List<Seller> list = sellerDao.findByDepartment(department);
 		for (Seller obj : list) {
 			System.out.println(obj);
 			
