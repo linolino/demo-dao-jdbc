@@ -46,6 +46,12 @@ public class Program2 {
 		dep.setName("Computers");
 		departmetDao.update(dep);
 		System.out.println("UPDATE! COMPLETED "+ dep);
+		//////////////////////////////////////////////////////////////////////
+		System.out.println("\n=== TEST 6: department DELETE ===");				
+		System.out.println("Enter id for delete test: ");
+		int id=sc.nextInt();
+		departmetDao.deletById(id);
+		System.out.println("DELETE COMPLETED");
 	
 		sc.close();
 

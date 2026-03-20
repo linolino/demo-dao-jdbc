@@ -110,11 +110,11 @@ public class SellerDaoJdbc implements SellerDao {
 			// COMANDO PARA DELETAR
 			st = conn.prepareStatement("DELETE FROM seller  \r\n" + "WHERE Id = ? ");// RETORNA O ID DO SELLER INSERIDO
 
-			st.setInt(1, id);
+			st.setInt(1, id);// NESTE CASO O PRIMEIRO ? VAIS RECEBER O ID
 
 			int rows = st.executeUpdate(); // VARIAVEL RECEBE A LINHA AFETADA PARA DELETAR
 			if (rows == 0) {
-				throw new DbException("nao deletado por id nao existe");
+				throw new DbException("NÃO DELETADO, ID NÃO EXISTE");
 			}
 
 		} catch (SQLException e) {// SE CASO HOUVER ALGUN ERRO MOSTRA
